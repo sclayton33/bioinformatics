@@ -4,7 +4,7 @@ This folder contains different versions of RNA-seq pipelines. At the moment it i
 
 I plan to try using other RNA-seq tools such as ones written in Python and Julia to see which works best for my use cases.
 
-- RNA-seq_pipeline_practice_v0.5.0.ipynb - once I am finished writing it, it will cover everything from raw fastq data processing, pre-alignment QC, alignment, post-alignment QC, expression analysis, and visualization.
+- RNA-seq_pipeline_practice_v0.5.0.ipynb - once I am finished writing it, it will cover everything from raw fastq data processing, pre-alignment QC, alignment, post-alignment QC, expression, differential expression, visualization, batch correction, pathway analysis. Other things can be added beyond that, but depends on usecase.
 
 ## Useful Links
 
