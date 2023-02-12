@@ -1,4 +1,4 @@
-# bioinformatics-practice
+# bioinformatics
 Code and resources for bioinformatics practice that I've done.
 
 # RNA-seq
