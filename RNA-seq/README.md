@@ -79,6 +79,7 @@ It is best practice to make note of the specific versions you use in the pipelin
 - [STRling](https://strling.readthedocs.io/en/latest/index.html)
     - [Github](https://github.com/quinlan-lab/STRling)
 - [freebayes](https://github.com/freebayes/freebayes)
+- [IGV](https://igv.org/)
 
 ### R libraries
 
