@@ -1,5 +1,5 @@
 # bioinformatics
-Code and resources for bioinformatics practice that I've done.
+Code and resources for bioinformatics analyses I've done.
 
 # RNA-seq
 My main focus for now since I will need the pipeline for that in the immediate future.
