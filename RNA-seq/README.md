@@ -20,9 +20,8 @@ To prevent this README from becoming too long, the list of programs was moved to
 
 # Overall flow of the pipeline
 
-1. Ensure that all necessary software is installed and working.
-2. Obtain the necessary reference genome (.fa) and corresponding annotations (.gtf) file. These **MUST** be from the **same source** and correspond with the **same version** of reference genome in order to work properly. I.e., GRCm38 refernce genome must also have an annotation file built for GRCm38, and these should be obtained from the same source.
-    - Probably the two main sources are [Ensembl](https://useast.ensembl.org/index.html) and [UCSC]().
+To prevent this README from becoming too long, the description for the pipeline flow was moved to the [wiki](https://github.com/sclayton33/bioinformatics/wiki/RNAseq) for this page.
+
 
 # Useful Links
 
@@ -30,3 +29,4 @@ To prevent this README from becoming too long, the list of programs was moved to
     - [IGV long tutorial](https://rnabio.org/assets/module_2/IGV_Tutorial_Long_BroadInstitute.pdf)
 - [HISAT2 github](https://github.com/DaehwanKimLab/hisat2)
 - [StringTie manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
+- [Computational Genomics with R](https://compgenomr.github.io/book/)
