@@ -30,3 +30,5 @@ To prevent this README from becoming too long, the description for the pipeline 
 - [HISAT2 github](https://github.com/DaehwanKimLab/hisat2)
 - [StringTie manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
 - [Computational Genomics with R](https://compgenomr.github.io/book/)
+- [iDEP](http://bioinformatics.sdstate.edu/idep/)
+    - [iDEP guide](https://idepsite.wordpress.com/)
