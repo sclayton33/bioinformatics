@@ -1,4 +1,4 @@
-# RNA-seq [wiki](https://github.com/sclayton33/bioinformatics/wiki/RNAseq)
+# RNA-seq [wiki](https://github.com/sclayton33/bioinformatics/wiki)
 
 This folder contains different versions of RNA-seq pipelines. At the moment it is only the one based on [rnabio.org](https://rnabio.org). I will create different verisons of this as I learn and refine it. At the moment it is just using typical command-line programs or R scripts, a detailed list is provided in the pipeline.
 
@@ -16,11 +16,11 @@ Just running this from Juptyer lab everytime I want to process a new dataset is 
 
 # List of programs
 
-To prevent this README from becoming too long, the list of programs was moved to the [wiki](https://github.com/sclayton33/bioinformatics/wiki/RNAseq) for this page.
+To prevent this README from becoming too long, the list of programs was moved to the [wiki](https://github.com/sclayton33/bioinformatics/wiki) for this page.
 
 # Overall flow of the pipeline
 
-To prevent this README from becoming too long, the description for the pipeline flow was moved to the [wiki](https://github.com/sclayton33/bioinformatics/wiki/RNAseq) for this page.
+To prevent this README from becoming too long, the description for the pipeline flow was moved to the [wiki](https://github.com/sclayton33/bioinformatics/wiki) for this page.
 
 
 # Useful Links
