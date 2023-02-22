@@ -5,7 +5,7 @@
 #####################################################################
 
 # It should be the full path, don't use ~
-fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023"
+trimmed_fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023/trimmed"
 
 #####################################################################
 #####################################################################
@@ -18,7 +18,7 @@ current_date=$(date +%Y-%m-%d_%H-%M-%S)
 username=$(whoami)
 
 # Change directory
-cd ${fastq_dir}
+cd ${trimmed_fastq_dir}
 
 # Activate conda env
 # Doing it this way instead of "conda activate bioinformatics" prevents conda init error
@@ -31,7 +31,7 @@ fastqc -t 24 *.fastq.gz
 multiqc .
 
 # Rename the multiqc report
-rename multiqc_report pre-alignment_multiqc_report_${current_date} ${fastq_dir}/multiqc_report.html
+rename multiqc_report post-trim_multiqc_report_${current_date} ${trimmed_fastq_dir}/multiqc_report.html
 
 # Make new directory for the fastqc outputs and move
 mkdir fastqc -p && mv *_fastqc* fastqc

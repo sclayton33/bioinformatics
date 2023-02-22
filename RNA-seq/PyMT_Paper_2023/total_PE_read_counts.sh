@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#####################################################################
+######################## USER DEFINED VALUES ########################
+#####################################################################
+
 # Define the directory where the FASTQ files are located
 # The script assumes they are all in one directory
 fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023"
@@ -8,8 +12,12 @@ fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023"
 inst_id="VH00"
 
 # Read number format. I.e R1 and R2, Read_1 and Read_2
-read_1=R1
-read_2=R2
+read_1=read1
+read_2=read2
+
+#####################################################################
+#####################################################################
+#####################################################################
 
 # Get current date and time
 current_date=$(date +%Y-%m-%d_%H-%M-%S)
