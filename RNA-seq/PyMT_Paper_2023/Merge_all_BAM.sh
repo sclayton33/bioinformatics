@@ -30,4 +30,6 @@ for bam_file in "${alignments_dir}"/*.bam; do
   file_name=$(basename ${bam_file} .bam)
 
 for group in ${groups}; do
-
+  for bam_file in "${alignments_dir}"/*"${group}"*.bam; do
+    # Extract the file name without the path and file extension
+    file_name=$(basename ${bam_file} .bam)
