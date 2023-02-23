@@ -1,24 +1,24 @@
 #! /bin/bash
 
+# Get current user
+username=$(whoami)
+
 #####################################################################
 ######################## USER DEFINED VALUES ########################
 #####################################################################
 
 # It should be the full path, don't use ~
-fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023"
+fastq_dir="/home/${username}/bioinformatics/PyMT_Paper_2023"
 
 # Sequencer multiplex file
-multiplex="/home/user/bioinformatics/reference_genomes/GRCm38/illumina_multiplex.fa"
+multiplex="/home/${username}/bioinformatics/reference_genomes/GRCm38/illumina_multiplex.fa"
 
 # Flexbar location
-flexbar="/home/user/bioinformatics/flexbar-3.5.0-linux/flexbar"
+flexbar="/home/${username}/bioinformatics/flexbar-3.5.0-linux/flexbar"
 
 #####################################################################
 #####################################################################
 #####################################################################
-
-# Get current user
-username=$(whoami)
 
 # Change directory
 cd ${fastq_dir}
@@ -50,5 +50,4 @@ for read1_file in "${fastq_dir}"/*read1.fastq.gz; do
   # Run command
   printf "Running command: ${cmd}\n"
   $cmd
-
 done

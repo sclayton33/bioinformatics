@@ -1,11 +1,14 @@
 #! /bin/bash
 
+# Get current user
+username=$(whoami)
+
 #####################################################################
 ######################## USER DEFINED VALUES ########################
 #####################################################################
 
 # It should be the full path, don't use ~
-trimmed_fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023/trimmed"
+trimmed_fastq_dir="/home/${username}/bioinformatics/PyMT_Paper_2023/trimmed"
 
 #####################################################################
 #####################################################################
@@ -13,9 +16,6 @@ trimmed_fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023/trimmed"
 
 # Get current date and time
 current_date=$(date +%Y-%m-%d_%H-%M-%S)
-
-# Get current user
-username=$(whoami)
 
 # Change directory
 cd ${trimmed_fastq_dir}
