@@ -14,7 +14,7 @@ alignments_dir="/home/${username}/bioinformatics/PyMT_Paper_2023/alignments"
 picard="/home/${username}/bioinformatics/picard.jar"
 
 # Path to REF_FLAT file for your reference genomes
-REF_FLAT="/home/${username}/bioinformatics/reference_genomes/GRCm38/Mus_musculus.GRCm38.102.ref_flat.txt"
+REF_FLAT="/home/${username}/bioinformatics/reference_genomes/GRCm39/Mus_musculus.GRCm39.109.ref_flat.txt"
 
 # The picard flag based on your strandedness
 # RF/fr-firststrand stranded (dUTP) = SECOND_READ_TRANSCRIPTION_STRAND
@@ -23,10 +23,10 @@ REF_FLAT="/home/${username}/bioinformatics/reference_genomes/GRCm38/Mus_musculus
 STRAND=SECOND_READ_TRANSCRIPTION_STRAND
 
 # Path to ribosomal intervals
-RIBOSOMAL_INTERVALS="/home/${username}/bioinformatics/reference_genomes/GRCm38/ref_ribosome.interval_list"
+RIBOSOMAL_INTERVALS="/home/${username}/bioinformatics/reference_genomes/GRCm39/ref_ribosome.interval_list"
 
 # Path to reference bed file
-REF_BED="/home/${username}/bioinformatics/reference_genomes/GRCm38/Mus_musculus.GRCm38.102.bed12"
+REF_BED="/home/${username}/bioinformatics/reference_genomes/GRCm39/Mus_musculus.GRCm39.109.bed12"
 
 # list of groups
 groups=("FC" "FT" "MC" "MT")
@@ -72,36 +72,45 @@ find *_*.bam -exec echo java -jar ${picard} CollectRnaSeqMetrics I={} O=picard/{
 mkdir -p rseqc
 
 # Loop through each group
-for group in "${groups[@]}"; do
-  # Create empty array to store .bam file names
-  bam_files=()
+# for group in "${groups[@]}"; do
+#   # Create empty array to store .bam file names
+#   bam_files=()
+#
+#   # Loop through the BAM files in the directory and add the ones that contain the group name to the array
+#   for bam_file in "${alignments_dir}"/*"${group}"*.bam; do
+#     # Extract the file name without the path and file extension
+#     file_name=$(basename ${bam_file} .bam)
+#
+#     # Check if the file name contains the group name
+#     if [[ ${file_name} != "${group}" ]]; then
+#       continue
+#     fi
+#
+#     # Add the file name to the array
+#     bam_files+=("${bam_file}")
+#   done
+#
+#   # Check if there are any BAM files for this group
+#   if [ ${#bam_files[@]} -eq 0 ]; then
+#     echo "No BAM files found for group ${group}"
+#     continue
+#   fi
+#
+#   # Join the BAM file names into a comma-separated list
+#   bam_file_list=$(IFS=,; echo "${bam_files[*]}")
+#
+#   # Run the geneBody_coverage.py command with the BAM files for this group
+#   geneBody_coverage.py -i "${bam_file_list}" -r "${REF_BED}" -o rseqc/"${group}"
+# done
 
-  # Loop through the BAM files in the directory and add the ones that contain the group name to the array
-  for bam_file in "${alignments_dir}"/*"${group}"*.bam; do
-    # Extract the file name without the path and file extension
-    file_name=$(basename ${bam_file} .bam)
+# Run geneBody_coverage
+geneBody_coverage.py -i Pistilli_P11B_FC1_S1_L001_001.bam, Pistilli_P11D_FC2_S2_L001_001.bam, Pistilli_P13B_FC3_S3_L001_001.bam, Pistilli_P13C_FC4_S4_L001_001.bam, Pistilli_P13E_FC5_S5_L001_001.bam -r "${REF_BED}" -o rseqc/FC
 
-    # Check if the file name contains the group name
-    if [[ ${file_name} != "${group}" ]]; then
-      continue
-    fi
+geneBody_coverage.py -i Pistilli_P12BL_FT1_S6_L001_001.bam, Pistilli_P12CRR_FT2_S7_L001_001.bam, Pistilli_P13A_FT3_S8_L001_001.bam, Pistilli_P14E_FT4_S9_L001_001.bam, Pistilli_P13F_FT5_S10_L001_001.bam -r "${REF_BED}" -o rseqc/FT
 
-    # Add the file name to the array
-    bam_files+=("${bam_file}")
-  done
+geneBody_coverage.py -i Pistilli_P186-5_MC1_S11_L001_001.bam, Pistilli_P186-7_MC2_S12_L001_001.bam, Pistilli_P189-1_MC3_S13_L001_001.bam, Pistilli_P187-1_MC4_S14_L001_001.bam, Pistilli_P188-2_MC5_S15_L001_001.bam -r "${REF_BED}" -o rseqc/MC
 
-  # Check if there are any BAM files for this group
-  if [ ${#bam_files[@]} -eq 0 ]; then
-    echo "No BAM files found for group ${group}"
-    continue
-  fi
-
-  # Join the BAM file names into a comma-separated list
-  bam_file_list=$(IFS=,; echo "${bam_files[*]}")
-
-  # Run the geneBody_coverage.py command with the BAM files for this group
-  geneBody_coverage.py -i "${bam_file_list}" -r "${REF_BED}" -o rseqc/"${group}"
-done
+geneBody_coverage.py -i Pistilli_P187-3_MT1_S16_L001_001.bam, Pistilli_P186-6_MT2_S17_L001_001.bam, Pistilli_P188-1_MT3_S18_L001_001.bam, Pistilli_P188-4_MT4_S19_L001_001.bam, Pistilli_P188-5_MT5_S20_L001_001.bam -r "${REF_BED}" -o rseqc/MT
 
 # Run more rseqc commands, still in the alignments dir
 find *_*.bam -exec echo inner_distance.py -i {} -r "${REF_BED}" -o rseqc/{} \; | sh
