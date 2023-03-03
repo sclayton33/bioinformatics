@@ -53,7 +53,7 @@ find *_*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 source /home/${username}/anaconda3/bin/activate bioinformatics
 
 # Run fastqc on all individual .bam files in the directory
-fastqc -t 24 *_*.bam
+fastqc -t 24 *.bam
 
 # Make new directory for the fastqc outputs and move
 mkdir fastqc -p && mv *fastqc* fastqc
