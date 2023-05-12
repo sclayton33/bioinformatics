@@ -3,12 +3,15 @@
 # Get current user
 username=$(whoami)
 
+# Get aboslute path of current directory
+current_dir=$(pwd)
+
 #####################################################################
 ######################## USER DEFINED VALUES ########################
 #####################################################################
 
 # It should be the full path, don't use ~
-alignments_dir="/home/${username}/bioinformatics/PyMT_Paper_2023/alignments"
+alignments_dir="${current_dir}/alignments"
 
 #####################################################################
 #####################################################################
@@ -23,9 +26,12 @@ for sam_file in "${alignments_dir}"/*.sam; do
   file_name=$(basename ${sam_file} .sam)
 
   # Run samtools sort to convert from sam to bam
-  cmd="samtools sort -@ 24 -o ${file_name}.bam ${file_name}.sam"
+  cmd="samtools sort -@ 28 -o ${file_name}.bam ${file_name}.sam"
 
   # Run command
   printf "Running command: ${cmd}\n"
   $cmd
 done
+
+# Delete all .sam files to free up space as they are no longer needed.
+# rm -f *.sam

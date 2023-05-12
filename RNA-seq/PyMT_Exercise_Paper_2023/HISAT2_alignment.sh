@@ -11,10 +11,7 @@ current_date=$(date +%Y-%m-%d_%H-%M-%S)
 #####################################################################
 
 # It should be the full path, don't use ~
-fastq_dir="/home/${username}/bioinformatics/PyMT_Paper_2023"
-
-# It should be the full path, don't use ~
-trimmed_fastq_dir="/home/${username}/bioinformatics/PyMT_Paper_2023/trimmed"
+fastq_dir="/home/${username}/bioinformatics/PyMT_Exercise_Paper_2023"
 
 # Name of sequencing platform
 platform="ILLUMINA"
@@ -46,17 +43,17 @@ cd ${fastq_dir}
 mkdir -p alignments && cd alignments
 
 # Loop through all the paired read files in the directory
-for read1_file in "${trimmed_fastq_dir}"/*_1.fastq.gz; do
+for read1_file in ${fastq_dir}/*.read1.fastq.gz; do
   # Extract the file name without the path and file extension
-  file_name=$(basename ${read1_file} _1.fastq.gz)
+  file_name=$(basename ${read1_file} .read1.fastq.gz)
 
   # Determine the corresponding read2 file
-  read2_file="${trimmed_fastq_dir}/${file_name}_2.fastq.gz"
+  read2_file="${fastq_dir}/${file_name}.read2.fastq.gz"
 
   # Define the output file name
   output_file="${fastq_dir}/alignments/${file_name}"
 
-  # Run Flexbar on the read1 and read2 files and output to the output file
+  # Run HISAT2 on the read1 and read2 files and output to the output file
   cmd="hisat2 -p ${p} --rg-id ${file_name} --rg SM:${file_name} --rg LB:${file_name}_Lib --rg PL:${platform} -x ${HISAT2_index} --rna-strandness ${rna_strandness} --dta -1 ${read1_file} -2 ${read2_file} -S ${output_file}.sam >> ${log_file} 2>&1"
 
   # Run command

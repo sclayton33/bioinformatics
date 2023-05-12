@@ -3,12 +3,15 @@
 # Get current user
 username=$(whoami)
 
+# Get aboslute path of current directory
+current_dir=$(pwd)
+
 #####################################################################
 ######################## USER DEFINED VALUES ########################
 #####################################################################
 
 # It should be the full path, don't use ~
-alignments_dir="/home/${username}/bioinformatics/PyMT_Paper_2023/alignments"
+alignments_dir="${current_dir}/alignments"
 
 # Path to picard.jar
 picard="/home/${username}/bioinformatics/picard.jar"
@@ -46,14 +49,14 @@ mkdir -p flagstat
 
 # Run samtools flagstat on all individual .bam files
 # Searching for *_* will find all the individual alignment files and skip the combined ones
-find *_*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
+find *_*.bam -exec echo samtools flagstat -@ 28 {} \> flagstat/{}.flagstat \; | sh
 
 # Activate conda env
 # Doing it this way instead of "conda activate bioinformatics" prevents conda init error
 source /home/${username}/anaconda3/bin/activate bioinformatics
 
 # Run fastqc on all individual .bam files in the directory
-fastqc -t 24 *.bam
+fastqc -t 28 *.bam
 
 # Make new directory for the fastqc outputs and move
 mkdir fastqc -p && mv *fastqc* fastqc
@@ -103,14 +106,15 @@ mkdir -p rseqc
 #   geneBody_coverage.py -i "${bam_file_list}" -r "${REF_BED}" -o rseqc/"${group}"
 # done
 
-# Run geneBody_coverage
-geneBody_coverage.py -i Pistilli_P11B_FC1_S1_L001_001.bam, Pistilli_P11D_FC2_S2_L001_001.bam, Pistilli_P13B_FC3_S3_L001_001.bam, Pistilli_P13C_FC4_S4_L001_001.bam, Pistilli_P13E_FC5_S5_L001_001.bam -r "${REF_BED}" -o rseqc/FC
-
-geneBody_coverage.py -i Pistilli_P12BL_FT1_S6_L001_001.bam, Pistilli_P12CRR_FT2_S7_L001_001.bam, Pistilli_P13A_FT3_S8_L001_001.bam, Pistilli_P14E_FT4_S9_L001_001.bam, Pistilli_P13F_FT5_S10_L001_001.bam -r "${REF_BED}" -o rseqc/FT
-
-geneBody_coverage.py -i Pistilli_P186-5_MC1_S11_L001_001.bam, Pistilli_P186-7_MC2_S12_L001_001.bam, Pistilli_P189-1_MC3_S13_L001_001.bam, Pistilli_P187-1_MC4_S14_L001_001.bam, Pistilli_P188-2_MC5_S15_L001_001.bam -r "${REF_BED}" -o rseqc/MC
-
-geneBody_coverage.py -i Pistilli_P187-3_MT1_S16_L001_001.bam, Pistilli_P186-6_MT2_S17_L001_001.bam, Pistilli_P188-1_MT3_S18_L001_001.bam, Pistilli_P188-4_MT4_S19_L001_001.bam, Pistilli_P188-5_MT5_S20_L001_001.bam -r "${REF_BED}" -o rseqc/MT
+# # Run geneBody_coverage
+# Can't do this yet because don't know groups
+# geneBody_coverage.py -i Pistilli_P11B_FC1_S1_L001_001.bam, Pistilli_P11D_FC2_S2_L001_001.bam, Pistilli_P13B_FC3_S3_L001_001.bam, Pistilli_P13C_FC4_S4_L001_001.bam, Pistilli_P13E_FC5_S5_L001_001.bam -r "${REF_BED}" -o rseqc/FC
+#
+# geneBody_coverage.py -i Pistilli_P12BL_FT1_S6_L001_001.bam, Pistilli_P12CRR_FT2_S7_L001_001.bam, Pistilli_P13A_FT3_S8_L001_001.bam, Pistilli_P14E_FT4_S9_L001_001.bam, Pistilli_P13F_FT5_S10_L001_001.bam -r "${REF_BED}" -o rseqc/FT
+#
+# geneBody_coverage.py -i Pistilli_P186-5_MC1_S11_L001_001.bam, Pistilli_P186-7_MC2_S12_L001_001.bam, Pistilli_P189-1_MC3_S13_L001_001.bam, Pistilli_P187-1_MC4_S14_L001_001.bam, Pistilli_P188-2_MC5_S15_L001_001.bam -r "${REF_BED}" -o rseqc/MC
+#
+# geneBody_coverage.py -i Pistilli_P187-3_MT1_S16_L001_001.bam, Pistilli_P186-6_MT2_S17_L001_001.bam, Pistilli_P188-1_MT3_S18_L001_001.bam, Pistilli_P188-4_MT4_S19_L001_001.bam, Pistilli_P188-5_MT5_S20_L001_001.bam -r "${REF_BED}" -o rseqc/MT
 
 # Run more rseqc commands, still in the alignments dir
 find *_*.bam -exec echo inner_distance.py -i {} -r "${REF_BED}" -o rseqc/{} \; | sh

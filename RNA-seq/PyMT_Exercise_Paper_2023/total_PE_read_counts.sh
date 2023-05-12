@@ -6,14 +6,14 @@
 
 # Define the directory where the FASTQ files are located
 # The script assumes they are all in one directory
-fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023"
+fastq_dir="./"
 
 # Define the instrument ID to use for searching, what comes after the @
 inst_id="VH00"
 
 # Read number format. I.e R1 and R2, Read_1 and Read_2
-read_1=read1
-read_2=read2
+read_1=R1
+read_2=R2
 
 #####################################################################
 #####################################################################

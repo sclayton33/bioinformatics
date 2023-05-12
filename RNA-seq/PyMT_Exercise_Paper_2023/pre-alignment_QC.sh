@@ -5,7 +5,7 @@
 #####################################################################
 
 # It should be the full path, don't use ~
-fastq_dir="/home/user/bioinformatics/PyMT_Paper_2023"
+fastq_dir="/home/user/bioinformatics/PyMT_Exercise_Paper_2023"
 
 #####################################################################
 #####################################################################
