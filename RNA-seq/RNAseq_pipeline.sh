@@ -9,16 +9,27 @@ username=$(whoami)
 # Get aboslute path of current directory
 current_dir=$(pwd)
 
+############### Arguments ###############
+# USAGE:
+# -f /path/to/fastq/files
+
+while getopts f: flag
+do
+    case "${flag}" in
+        f) fastq=${OPTARG};;
+    esac
+done
+
 #####################################################################
 ######################## USER DEFINED VALUES ########################
 #####################################################################
 
-# Make sure to copy this script to the location of the fastq files you want to process
+# Make sure to enter the path to the location of the fastq files you want to process
 # This script should take care of everything else after that
-fastq_dir="${current_dir}"
+fastq_dir="$fastq"
 
 # Number of threads to user
-threads="56"
+threads="62"
 
 # Annotation files
 GRCm39_annot="/home/pistillilab/Bioinformatics/Indexes/GRCm39/Mus_musculus.GRCm39.109.gtf"
@@ -33,7 +44,8 @@ GRCm39_index="/home/${username}/Bioinformatics/Indexes/GRCm39/Mus_musculus.GRCm3
 T2T_index="/home/${username}/Bioinformatics/Indexes/T2T-CHM13v2.0/GCF_009914755.1_T2T-CHM13v2.0_genomic"
 
 # Path to log file
-log_file="${fastq_dir}/alignments_${current_date}.log"
+alignments_dir="${fastq_dir}/alignments"
+hisat2_log="${fastq_dir}/alignments_${current_date}.log"
 
 # Strand setting for HISAT2
 # There are three options for this setting
@@ -43,13 +55,13 @@ log_file="${fastq_dir}/alignments_${current_date}.log"
 rna_strandness="RF"
 
 ##### SAM to BAM #####
-# It should be the full path, don't use ~
-alignments_dir="${current_dir}/alignments"
 jobs_to_run=28
 
 #####################################################################
 #####################################################################
 #####################################################################
+
+############### Pre-run environment changes ###############
 
 # Reload .bashrc file. TODO: not sure why this is necessary, need to fix.
 source ~/.bashrc
@@ -59,7 +71,20 @@ source ~/.bashrc
 # This step may not be necessary
 source /home/${username}/anaconda3/bin/activate base
 
+############### Pre-run checks ###############
+
+# Confirm necessary programs are installed and available
+command -v fastqc >/dev/null 2>&1 || { echo >&2 "Script requires fastqc but it's not installed. Aborting."; exit 1; }
+command -v multiqc >/dev/null 2>&1 || { echo >&2 "Script requires multiqc but it's not installed. Aborting."; exit 1; }
+command -v hisat2 >/dev/null 2>&1 || { echo >&2 "Script requires hisat2 but it's not installed. Aborting."; exit 1; }
+command -v samtools >/dev/null 2>&1 || { echo >&2 "Script requires samtools but it's not installed. Aborting."; exit 1; }
+command -v parallel >/dev/null 2>&1 || { echo >&2 "Script requires parallel but it's not installed. Aborting."; exit 1; }
+command -v featureCounts >/dev/null 2>&1 || { echo >&2 "Script requires featureCounts but it's not installed. Aborting."; exit 1; }
+
 ############### Pre-alignment QC ###############
+
+# Change to fastq directory
+cd "${fastq_dir}"
 
 # Run fastqc on all FASTQ files in the directory
 fastqc -t ${threads} *.fastq.gz
@@ -90,10 +115,10 @@ for read1_file in ${fastq_dir}/*_R1.fastq.gz; do
   output_file=${fastq_dir}/alignments/${file_name}
 
   # Print filename to log file
-  echo "$file_name alignment results:" >> "${log_file}"
+  echo "$file_name alignment results:" >> "${hisat2_log}"
 
   # Run HISAT2 on the read1 and read2 files and output to the output file
-  cmd="hisat2 -p ${threads} -x ${T2T_index} --rna-strandness ${rna_strandness} --dta -1 ${read1_file} -2 ${read2_file} -S ${output_file}.sam >> ${log_file} 2>&1"
+  cmd="hisat2 -p ${threads} -x ${GRCm39_index} --rna-strandness ${rna_strandness} --dta -1 ${read1_file} -2 ${read2_file} -S ${output_file}.sam >> ${hisat2_log} 2>&1"
 
   # Run command
   printf "Running command: ${cmd}\n"
@@ -126,4 +151,4 @@ find "${alignments_dir}" -name "*.sam" | parallel -j ${jobs_to_run} sam_to_bam
 # https://rnnh.github.io/bioinfo-notebook/docs/featureCounts.html
 # -p = specifies that fragments will be counted instead of reads. For paired-end reads only.
 # -O = assigns reads to all their overlapping meta-features
-featureCounts -T ${threads} -p -O -a ${T2T_annot} -o "featureCounts_${current_date}.tsv" *.bam
+featureCounts -T ${threads} -p -O -a ${GRCm39_annot} -o "featureCounts_${current_date}.tsv" *.bam
